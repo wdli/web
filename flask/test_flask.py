@@ -3,7 +3,7 @@
 #
 # Learning Flask framework
 #
-# Update 8/8/14
+# Update 8/25/14
 #
 
 from flask import Flask, url_for
@@ -40,14 +40,15 @@ def profile(username):
 #
 @app.route('/projects/')
 def projects():
-	return "Projects Page"
+        return "<h1>Projects</h1>"\
+	       "<p>Projects Page, sorry there are no projets here!, Please come back later</p>"
 
 #
 # This will NOT cause redirection without a trailing /
 #
 @app.route('/about')
 def about():
-	return "About Page"
+	return "<h1>About Page</h1>"
 
 
 
@@ -56,5 +57,5 @@ with app.test_request_context():
 
 if __name__ == "__main__":
 	#app.run(debug = True)
-        app.run(host='0.0.0.0',port=6001)
+        app.run(host='0.0.0.0',port=6001,debug=True)
 
