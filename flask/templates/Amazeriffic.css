@@ -1,0 +1,34 @@
+
+footer { 
+    background: gray;
+}
+
+.contact {
+    float: left;   
+    width: auto; 
+}
+
+.sitemap {
+    float: right;
+    width: auto;
+}
+
+header {
+    overflow: auto;
+}
+
+header h1{ 
+    float:left; 
+    width:auto;
+}
+
+header nav {
+    float: right;
+    width:auto;
+}
+
+
+
+head, main, footer {
+    min-width: 855px;
+}
