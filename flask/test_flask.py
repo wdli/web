@@ -20,25 +20,35 @@ app = Flask(__name__)
 def hello():
 	return "Hello Flask World!"
 
+
 #
-# Login page, use request object
+# login validation 
+#
+def validate_login(username, password):
+    print " User = "+username+" Pass = "+password
+    if username == 'lid' and password == 'cloud':
+        return True 
+    else:
+        return False
+
+#
+# Login page, use a request object
 #
 @app.route('/login', methods=['POST','GET'])
 def login():
-	error=None
-        # If this is a login form request
-	if request.method == 'POST':
-		if validate_login(request.form['username'],
-                                  request.form['password']):
-		                  return "Login OK"
-                else:
-                    return "Login Failed"
-        # If this is a GET  
-	return render_template('login.html')
+    if request.method == 'POST':
+        if validate_login(request.form['username'], request.form['password']):
+            return render_template("Amazeriffic.html")
+        else:
+            return "<h1>Login failed</h1>"
+
+    else:
+        return render_template("login.html")
+
 
 
 #
-# user page: pass a variable in <> to function
+#   user page: pass a variable in <> to function
 #
 @app.route('/user/<username>')
 def profile(username):
