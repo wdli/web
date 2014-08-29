@@ -6,11 +6,11 @@
 # Update 8/28/14
 #
 
-from flask import Flask, url_for, render_template
+from flask import Flask, url_for, render_template, request
 
-#
+#################################
 # Create an instance of the app
-#
+################################
 app = Flask(__name__)
 
 #
@@ -21,11 +21,20 @@ def hello():
 	return "Hello Flask World!"
 
 #
-# Login page
+# Login page, use request object
 #
-@app.route('/login')
+@app.route('/login', methods=['POST','GET'])
 def login():
-	return "Login page"
+	error=None
+        # If this is a login form request
+	if request.method == 'POST':
+		if validate_login(request.form['username'],
+                                  request.form['password']):
+		                  return "Login OK"
+                else:
+                    return "Login Failed"
+        # If this is a GET  
+	return render_template('login.html')
 
 
 #
