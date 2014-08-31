@@ -6,7 +6,7 @@
 # Update 8/28/14
 #
 
-from flask import Flask, url_for, render_template, request
+from flask import Flask, redirect, url_for, render_template, request
 
 #################################
 # Create an instance of the app
@@ -14,11 +14,11 @@ from flask import Flask, url_for, render_template, request
 app = Flask(__name__)
 
 #
-# Root page
+# Root page: use redirect to login page
 #
 @app.route('/')
 def hello():
-	return "Hello Flask World!"
+        return redirect(url_for("login"))
 
 
 #
