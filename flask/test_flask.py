@@ -6,7 +6,8 @@
 # Update 8/28/14
 #
 
-from flask import Flask, redirect, url_for, render_template, request
+from flask import Flask, redirect, url_for, render_template, request, session ,escape
+import os
 
 #################################
 # Create an instance of the app
@@ -36,11 +37,23 @@ def validate_login(username, password):
 #
 @app.route('/login', methods=['POST','GET'])
 def login():
+
     if request.method == 'POST':
-        if validate_login(request.form['username'], request.form['password']):
-            return render_template("Amazeriffic.html")
+        # Check if the user has logged in with session
+        user = request.form['username']
+        print " User: %s wants to log in!" % (user)
+        print " Current session users are: %s" % (session)
+        if user in session:
+                #return "Logged in as %s" % escape(session['username'])
+                return "Logged in already"
         else:
-            return "<h1>Login failed</h1>"
+                print "Not logged in yet, validating..."
+                if validate_login(request.form['username'], request.form['password']):
+                        session[user] = user # store the session user
+                        print " Current session users are: %s" % (session)
+                        return render_template("Amazeriffic.html")
+                else:
+                        return "<h1>Login failed</h1>"
 
     else:
         return render_template("login.html")
@@ -68,7 +81,7 @@ def projects():
 #
 @app.route('/Amazeriffic/')
 def ameri_template():
-	return render_template("Amazeriffic.html")
+	return redirect(url_for("login")) 
 
 
 #
@@ -89,6 +102,8 @@ with app.test_request_context():
 	print url_for('about',next='/what',nextnext='whatwhat')
 
 if __name__ == "__main__":
-	#app.run(debug = True)
+        
+        app.secret_key = os.urandom(24)
+        print "Generated a secret key for sessions!"
         app.run(host='0.0.0.0',port=6001,debug=True)
 
