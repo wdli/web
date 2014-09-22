@@ -3,8 +3,13 @@
 #
 # Learning Flask framework
 #
-# Update 8/28/14
+# Update 9/1
 #
+# TODO:
+#   logout a session
+#   handle a radio button query
+#
+# 
 
 from flask import Flask, redirect, url_for, render_template, request, session ,escape
 import os
@@ -37,7 +42,9 @@ def validate_login(username, password):
 #
 @app.route('/login', methods=['POST','GET'])
 def login():
-
+    #
+    # User 'posted' a message to us
+    #
     if request.method == 'POST':
         # Check if the user has logged in with session
         user = request.form['username']
@@ -49,9 +56,9 @@ def login():
         else:
                 print "Not logged in yet, validating..."
                 if validate_login(request.form['username'], request.form['password']):
-                        session[user] = user # store the session user
+                        session[user] = user # store or remember the session user
                         print " Current session users are: %s" % (session)
-                        return render_template("Amazeriffic.html")
+                        return render_template("Amazeriffic.html") # login OK, show the page 
                 else:
                         return "<h1>Login failed</h1>"
 
