@@ -2,10 +2,11 @@
 <html>
   <head>
     <title>Amazeriffic By David Li</title>
-    <!--<link rel="stylesheet" href="Amazeriffic.css" type="text/css" media="screen" />-->
+    <link rel="stylesheet" href={{url_for('static',filename="Amazeriffic.css")}} type="text/css" media="screen" />
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-    <script src="/static/Amazeriffic.js"></script>
-
+    <!--<script src="/static/Amazeriffic.js"></script>-->
+    <script src="{{url_for('static',filename='Amazeriffic.js')}}"></script>
+    
   </head>
   <body>
     <header>
