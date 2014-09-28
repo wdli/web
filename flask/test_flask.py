@@ -52,7 +52,8 @@ def login():
         print " Current session users are: %s" % (session)
         if user in session:
                 #return "Logged in as %s" % escape(session['username'])
-                return "Logged in already"
+                #return "Logged in already"
+                return render_template("Amazeriffic.html") # login OK, show the page 
         else:
                 print "Not logged in yet, validating..."
                 if validate_login(request.form['username'], request.form['password']):
@@ -66,6 +67,12 @@ def login():
         return render_template("login.html")
 
 
+#
+# Test js
+#
+@app.route('/testjs')
+def testjs():
+    return render_template("test-js.html")
 
 #
 #   user page: pass a variable in <> to function
@@ -107,6 +114,7 @@ with app.test_request_context():
 	print url_for('login')
 	print url_for('about')
 	print url_for('about',next='/what',nextnext='whatwhat')
+	print url_for('static', filename = 'test.js')
 
 if __name__ == "__main__":
         
