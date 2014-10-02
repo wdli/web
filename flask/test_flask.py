@@ -3,11 +3,7 @@
 #
 # Learning Flask framework
 #
-# Update 9/1
-#
-# TODO:
-#   logout a session
-#   handle a radio button query
+# Update 9/28
 #
 # 
 
