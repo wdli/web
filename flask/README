@@ -1,0 +1,7 @@
+Steps to install flask on Centos6:
+===================================
+wget  wget http://mirror-fpt-telecom.fpt.net/fedora/epel/6/i386/epel-release-6-8.noarch.rpm
+sudo rpm -ivh epel-release-6-8.noarch.rpm 
+sudo yum install python-pip
+sudo pip install flask
+
