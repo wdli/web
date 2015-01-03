@@ -5,3 +5,14 @@ sudo rpm -ivh epel-release-6-8.noarch.rpm
 sudo yum install python-pip
 sudo pip install flask
 
+
+Work with the Flask book examples
+================================
+
+Install:
+
+flask-script
+flask-bootstrap
+argparse
+flask-wtf
+
