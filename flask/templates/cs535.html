@@ -1,7 +1,16 @@
+<!---
+This is the base html file for CS535 
+-->
 {% extends "bootstrap/base.html" %}
 
-{% block title %}Welcome to CS535!{% endblock %}
+<!--- 
+Block Title 
+-->
+{% block title %}CS535A!{% endblock %}
 
+<!--- 
+Block Navigation Bar 
+-->
 {% block navbar %}
 <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
@@ -17,22 +26,30 @@
             <a class="navbar-brand" href="/">Flasky</a>
         </div>
 --> 
+
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
-                <li><a href="http://wenxuecity.com">Wenxuecity</a></li>
-                <li><a href="/checkDB">Check Project 2</a></li>
-                 
+                <li><a href="http://npu.edu">NPU</a></li>
+                <li><a href="/checkDB">Check Project 2 Info</a></li>
             </ul>
         </div>
     </div>
 </div>
 {% endblock %}
 
+
+<!--- 
+Block Content 
+-->
+
 {% block content %}
 <div class="container">
     <div class="page-header">
-        <h1>Hello, here will be your project 2 info!</h1>
+        <h1>Hello, Welcome to the Home of CS535 at NPU!</h1>
     </div>
+    <!-- Important the following page content will be in the
+         child template cs535_project2.html -->
+    {% block page_content %}{% endblock %}
 </div>
 {% endblock %}
