@@ -1,25 +1,28 @@
-<!---
+<!-----------------
  This file extends the "cs535.htm" and specilizes in 
  providing prject2 info
  
  Input: form, student_id
--->
+-------------------->
 
 {% extends "cs535.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+<!------------------
+Block title
+-------------------->
 {% block title %}CS535 Project2{% endblock %}
 
-<!---
-Page content
---->
+<!----------------
+Block Page content 
+This extends the "page_content" block in the cs535.html template
+------------------>
 {% block page_content %}
 <div class="page-header">
-
    <h1>Hello, {% if student_id %} {{student_id}} {% else %} Please enter your NPU student ID {% endif %}! 
    </h1>
-
 </div> 
+<!-- Display the submission form --> 
 {{ wtf.quick_form(form)}}
 {% endblock %}
 

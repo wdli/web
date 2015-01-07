@@ -35,11 +35,12 @@ manager   = Manager(app)
 bootstrap = Bootstrap(app)
 
 #
-# Submission form class
+# Class for submission form
+#   This inherits from WTF Form class
 #
 class SubmissionForm(Form):
     student_id = StringField("What's your NPU student ID?", validators=[Required()])
-    submit = SubmitField('Submit')
+    submit     = SubmitField('Submit')
     
 #
 # Route for '/'
@@ -50,7 +51,9 @@ def index():
     return render_template('cs535.html')
 #
 # Route for 'checkDB'
-# Use cs535_projec2.html template
+#  This comes from cs535.html template
+#  Use cs535_projec2.html template
+#  It handles both GET and POST
 #
 @app.route('/checkDB', methods=['GET','POST'])
 def checkDB():
