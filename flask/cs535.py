@@ -58,25 +58,23 @@ def index():
 #
 @app.route('/checkDB', methods=['GET','POST'])
 def checkDB():
-    id = None
+
     form = SubmissionForm()
     if form.validate_on_submit():
         #
         # if validated, use redirect to handle browser refresh
+        #  if nothing changed, a refresh will send the old data again
         #
-        #session['student_id'] = form.student_id.data
-        id = form.student_id.data
-        form.student_id.data = ''
-        #return redirect(url_for('checkDB'))
+        session['student_id'] = form.student_id.data
+        return redirect(url_for('checkDB'))
 
     #
     # If validated, then display the template with a real id
     # If not, then display the template with an empty id
     # and template logic will handle it properly
     #
-    #return render_template('cs535_project2.html', form=form, name=session.get('student_id'))
-    return render_template('cs535_project2.html', form=form, student_id=id)
-
+    print "Student ID:" + str(session.get('student_id'))
+    return render_template('cs535_project2.html', form=form, student_id=session.get('student_id'))
 
 #
 # Main
