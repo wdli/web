@@ -19,7 +19,7 @@ from flask import Flask, render_template, session, redirect, url_for
 from flask.ext.script import Manager
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.wtf import Form
-from wtforms import StringField, SubmitField
+from wtforms import IntegerField, StringField, SubmitField
 from wtforms.validators import Required
 
 #
@@ -39,7 +39,8 @@ bootstrap = Bootstrap(app)
 #   This inherits from WTF Form class
 #
 class SubmissionForm(Form):
-    student_id = StringField("What's your NPU student ID?", validators=[Required()])
+    #student_id = StringField("What's your NPU student ID?", validators=[Required()])
+    student_id = IntegerField("What's your NPU student ID?", validators=[Required()])
     submit     = SubmitField('Submit')
     
 #
