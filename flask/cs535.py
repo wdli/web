@@ -9,11 +9,13 @@
 #  flask-script
 #  flask-bootstrap
 #  flask-wtf
+#  flask-sqlalchemy
 #
 # Use templates: cs535.html, cs535-project2.html
 #
 # To run: ./cs535.py runserver -h 0.0.0.0 or localhost -p 6001 -r
 ##################################################################
+import os
 
 from flask import Flask, render_template, session, redirect, url_for
 from flask.ext.script import Manager
@@ -21,12 +23,19 @@ from flask.ext.bootstrap import Bootstrap
 from flask.ext.wtf import Form
 from wtforms import IntegerField, StringField, SubmitField
 from wtforms.validators import Required
+from flask.ext.sqlalchemy import SQLAlchemy
+
 
 #
 #Create flask app and configuration
 #
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "cs535"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'CS535.fall14.db')
+
+db = SQLAlchemy(app)
 
 #
 # Instantiate manager and bootstrap using the app
