@@ -27,7 +27,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 
 
 #
-#Create flask app and configuration
+# Create basic flask app and configuration
 #
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -35,8 +35,23 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = "cs535"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'CS535.fall14.db')
 
+#
+# Create database
+#
+
 db = SQLAlchemy(app)
 
+#
+# Creat Table: student login record
+#
+class LoginRecordProject2(db.Model):
+    __tablename__="login record"
+    id = db.Column(db.String, primary_key=True)
+    loginTime = db.Column(db.String, unique=True)
+
+    def __repr__(self):
+        return "<LoginRecord %r>" % self.name
+        
 #
 # Instantiate manager and bootstrap using the app
 #
