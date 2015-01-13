@@ -10,6 +10,7 @@
 #  flask-bootstrap
 #  flask-wtf
 #  flask-sqlalchemy
+#  flask-migrate
 #
 # Use templates: cs535.html, cs535-project2.html
 #
@@ -25,7 +26,7 @@ from flask.ext.wtf import Form
 from wtforms import IntegerField, StringField, SubmitField
 from wtforms.validators import Required
 from flask.ext.sqlalchemy import SQLAlchemy
-
+from flask.ext.migrate import Migrate, MigrateCommand
 
 #
 # Create basic flask app and configuration
@@ -45,13 +46,13 @@ db = SQLAlchemy(app)
 #
 # Creat Table: student login record
 #
-class LoginRecordProject2(db.Model):
-    __tablename__="login record"
-    id = db.Column(db.String, primary_key=True)
-    loginTime = db.Column(db.String, unique=True)
+class LoginRecord(db.Model):
+    __tablename__='CS535_FALL14'
+    ID = db.Column(db.Integer, primary_key=True)
+    TIME = db.Column(db.String, unique=True)
 
     def __repr__(self):
-        return "<LoginRecord: user ID %s, login time %s>" % (self.id, self.loginTime)
+        return "<LoginRecord: user ID %s, login time %s>" % (self.ID, self.TIME)
 
         
 #
@@ -60,15 +61,19 @@ class LoginRecordProject2(db.Model):
 manager   = Manager(app)
 bootstrap = Bootstrap(app)
 
-
-
 #
 # add a shell context to auto load tables
 #
 def make_shell_context():
-    return dict(app=app, db=db, LoginRecordProject2=LoginRecordProject2)
+    return dict(app=app, db=db, LoginRecord=LoginRecord)
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
+
+#
+# add migrate command
+#
+migrate = Migrate(app,db)
+manager.add_command('db', MigrateCommand)
 
 
 #
