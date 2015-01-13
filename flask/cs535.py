@@ -15,6 +15,31 @@
 # Use templates: cs535.html, cs535-project2.html
 #
 # To run: ./cs535.py runserver -h 0.0.0.0 or localhost -p 6001 -r
+#
+# Note on querying an existing database table, e.g CS535.fall14.db
+#   Use sqlacodegen to first look at the table class definition:
+#   For example,
+"""
+wdli@wdli-lenovo:flask:$ sqlacodegen sqlite:///CS535.fall14.db
+# coding: utf-8
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+
+
+Base = declarative_base()
+metadata = Base.metadata
+
+
+class CS535FALL14(Base):
+    __tablename__ = 'CS535_FALL14'
+
+    ID = Column(Integer, primary_key=True)
+    TIME = Column(String(128))
+
+"""
+# Then make sure that your table definition matches closely to the
+# output!
+#
 ##################################################################
 import os
 
