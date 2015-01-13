@@ -19,6 +19,7 @@ import os
 
 from flask import Flask, render_template, session, redirect, url_for
 from flask.ext.script import Manager
+from flask.ext.script import Shell
 from flask.ext.bootstrap import Bootstrap
 from flask.ext.wtf import Form
 from wtforms import IntegerField, StringField, SubmitField
@@ -33,12 +34,12 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "cs535"
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'CS535.spring15.test.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'CS535.fall14.db')
 
 #
 # Create database
 #
-
 db = SQLAlchemy(app)
 
 #
@@ -50,13 +51,25 @@ class LoginRecordProject2(db.Model):
     loginTime = db.Column(db.String, unique=True)
 
     def __repr__(self):
-        return "<LoginRecord %r>" % self.name
+        return "<LoginRecord: user ID %s, login time %s>" % (self.id, self.loginTime)
+
         
 #
 # Instantiate manager and bootstrap using the app
 #
 manager   = Manager(app)
 bootstrap = Bootstrap(app)
+
+
+
+#
+# add a shell context to auto load tables
+#
+def make_shell_context():
+    return dict(app=app, db=db, LoginRecordProject2=LoginRecordProject2)
+
+manager.add_command("shell", Shell(make_context=make_shell_context))
+
 
 #
 # Class for submission form
