@@ -134,7 +134,7 @@ def index():
 #
 @app.route('/checkDB', methods=['GET','POST'])
 def checkDB():
-
+    studentrec = []
     form = SubmissionForm()
     if form.validate_on_submit():
         
@@ -142,15 +142,17 @@ def checkDB():
         # if validated, use redirect to handle browser refresh
         #  if nothing changed, a refresh will send the old data again
         #
-        student = LoginRecord.query.filter_by(ID=form.student_id.data).all()
+        studentrec = LoginRecord.query.filter_by(ID=form.student_id.data).all()
 
         
-        if not student:
+        if not studentrec: #empty list
             print "Unknown student"
+            session['student_login'] = ''
             session['known'] = False
         else:
             print "Known student"
-            print "Student ID: " + str(student[0])
+            print "Student info: " + str(studentrec[0])
+            session['student_login'] = str(studentrec[0])
             session['known'] = True
             
         session['student_id'] = form.student_id.data
@@ -166,7 +168,8 @@ def checkDB():
     return render_template('cs535_project2.html', 
                            form= form,
                            student_id=session.get('student_id'), 
-                           known = session.get('known'))
+                           known = session.get('known'),
+                           record=session.get('student_login'))
 
 #
 # Main
