@@ -22,6 +22,7 @@ Input: form, student_id
 <div class="page-header">
    <h1>Hello! {% if student_id %} {{student_id}} {% else %} Please enter your NPU student ID {% endif %}! 
    </h1>
+   {% if not known %} <p> New student! </p> {% else %} <p> Welcome back! </p> {% endif %}
 </div> 
 <!-- Display the submission form --> 
 {{ wtf.quick_form(form)}}

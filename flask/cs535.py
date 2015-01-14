@@ -14,7 +14,12 @@
 #
 # Use templates: cs535.html, cs535-project2.html
 #
-# To run: ./cs535.py runserver -h 0.0.0.0 or localhost -p 6001 -r
+# To run as a server:
+#     ./cs535.py runserver -h 0.0.0.0 or localhost -p 6001 -r
+# To run in python shell for debugging 
+#     python cs535.py shell
+# To perform db upgrade:
+#    python cs535.py db { init, migrate, upgrade}
 #
 # Note on querying an existing database table, e.g CS535.fall14.db
 #   Use sqlacodegen to first look at the table class definition:
@@ -70,10 +75,13 @@ db = SQLAlchemy(app)
 
 #
 # Creat Table: student login record
+#   To match the exiting table: __tablename__, ID, and TIME
+#   have to the same as the exiting table scheme
+#   This is based on the output from sqlacodegen
 #
 class LoginRecord(db.Model):
-    __tablename__='CS535_FALL14'
-    ID = db.Column(db.Integer, primary_key=True)
+    __tablename__='CS535_FALL14' 
+    ID   = db.Column(db.Integer, primary_key=True)
     TIME = db.Column(db.String, unique=True)
 
     def __repr__(self):
@@ -97,6 +105,7 @@ manager.add_command("shell", Shell(make_context=make_shell_context))
 #
 # add migrate command
 #
+
 migrate = Migrate(app,db)
 manager.add_command('db', MigrateCommand)
 
@@ -128,11 +137,24 @@ def checkDB():
 
     form = SubmissionForm()
     if form.validate_on_submit():
+        
         #
         # if validated, use redirect to handle browser refresh
         #  if nothing changed, a refresh will send the old data again
         #
+        student = LoginRecord.query.filter_by(ID=form.student_id.data).all()
+
+        
+        if not student:
+            print "Unknown student"
+            session['known'] = False
+        else:
+            print "Known student"
+            print "Student ID: " + str(student[0])
+            session['known'] = True
+            
         session['student_id'] = form.student_id.data
+        form.student_id.data = ''
         return redirect(url_for('checkDB'))
 
     #
@@ -141,7 +163,10 @@ def checkDB():
     # and template logic will handle it properly
     #
     print "Student ID:" + str(session.get('student_id'))
-    return render_template('cs535_project2.html', form=form, student_id=session.get('student_id'))
+    return render_template('cs535_project2.html', 
+                           form= form,
+                           student_id=session.get('student_id'), 
+                           known = session.get('known'))
 
 #
 # Main
