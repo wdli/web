@@ -20,8 +20,9 @@ Input: form, student_id
 ------------------>
 {% block page_content %}
 <div class="page-header">
-   <h1>Hello, {% if student_id %} {{student_id}} {% else %} Please enter your NPU student ID {% endif %}! 
-   </h1>
+   <h1> This shows if your client cert has been successfully authenticated by the server </h1>
+   <h2>Hello, {% if student_id %} {{student_id}} {% else %} Please enter your NPU student ID {% endif %}! 
+   </h2>
    {% if not known %} <h3> Sorry, ID not found! </h3> {% else %} <p> Welcome: {{record}} </p> {% endif %}
 </div> 
 <!-- Display the submission form --> 
