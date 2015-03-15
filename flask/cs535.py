@@ -20,6 +20,8 @@
 #     python cs535.py shell
 # To perform db upgrade:
 #    python cs535.py db { init, migrate, upgrade}
+# Update for different classes: search for UPDATE. You 'll need to enter
+#    the new database name and table name for different class
 #
 # Note on querying an existing database table, e.g CS535.fall14.db
 #   Use sqlacodegen to first look at the table class definition:
@@ -66,7 +68,8 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "cs535"
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'CS535.spring15.test.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'CS535.fall14.db')
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join(basedir,'CS535.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join('/home/David.Li/workspace/cs535/NPU/server','CS535.db') # UPDATE
 
 #
 # Create database
@@ -80,7 +83,7 @@ db = SQLAlchemy(app)
 #   This is based on the output from sqlacodegen
 #
 class LoginRecord(db.Model):
-    __tablename__='CS535_FALL14' 
+    __tablename__='CS535_Spring15' # UPDATE 
     ID   = db.Column(db.Integer, primary_key=True)
     TIME = db.Column(db.String, unique=True)
 
