@@ -6,6 +6,7 @@
 #
 #
 # Require flask ext: 
+#
 #  flask-script
 #  flask-bootstrap
 #  flask-wtf
@@ -14,8 +15,8 @@
 #
 # Use templates: cs535.html, cs535-project2.html
 #
-# To run as a server:
-#     ./cs535.py runserver -h 0.0.0.0 or localhost -p 6001 -r
+# To run as a server to listen on port 6002:
+#     ./cs535.py runserver -h 0.0.0.0 or localhost -p 6002 -r
 # To run in python shell for debugging 
 #     python cs535.py shell
 # To perform db upgrade:
@@ -60,6 +61,8 @@ from wtforms.validators import Required
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.migrate import Migrate, MigrateCommand
 
+import logging
+
 #
 # Create basic flask app and configuration
 #
@@ -77,7 +80,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///'+os.path.join('/home/David.L
 db = SQLAlchemy(app)
 
 #
-# Creat Table: student login record
+# Create Table: student login record
 #   To match the exiting table: __tablename__, ID, and TIME
 #   have to the same as the exiting table scheme
 #   This is based on the output from sqlacodegen
@@ -112,7 +115,32 @@ manager.add_command("shell", Shell(make_context=make_shell_context))
 migrate = Migrate(app,db)
 manager.add_command('db', MigrateCommand)
 
+#
+# cs535Logger class
+#
+class cs535Logger(object):
+    
+    def __init__(self, loggingLevel):
+        self._logger_ = logging.getLogger(__name__)
+        self._logger_.setLevel(loggingLevel)
+        logging.basicConfig(filename="cs535_p2_spring15.log")
+        
 
+    def log(self, msg):
+        
+        #import pdb; pdb.set_trace()
+        print msg
+        self._logger_.info(msg)
+        self._logger_.debug(msg)
+        
+        
+         
+#
+# start logger
+#
+global cs535logging
+cs535logger = cs535Logger(logging.INFO)
+		
 #
 # Class for submission form
 #   This inherits from WTF Form class
@@ -147,19 +175,24 @@ def checkDB():
         #
         studentrec = LoginRecord.query.filter_by(ID=form.student_id.data).all()
 
-        
+
+
         if not studentrec: #empty list
-            print "Unknown student"
+            #print "Unknown student"
+            cs535logger.log("Empty student")
             session['student_login'] = ''
             session['known'] = False
         else:
-            print "Known student"
-            print "Student info: " + str(studentrec[0])
+            #print "Known student"
+            #print "Student info: " + str(studentrec[0])
+            cs535logger.log("Student found %s" % (str(studentrec[0])))
             session['student_login'] = str(studentrec[0])
             session['known'] = True
-            
+
+        
         session['student_id'] = form.student_id.data
         form.student_id.data = ''
+        cs535logger.log("form.student_id.data %s" % (session['student_id']))
         return redirect(url_for('checkDB'))
 
     #
@@ -167,7 +200,8 @@ def checkDB():
     # If not, then display the template with an empty id
     # and template logic will handle it properly
     #
-    print "Student ID:" + str(session.get('student_id'))
+    #print "Student ID:" + str(session.get('student_id'))
+    cs535logger.log("now render template for Student ID:" + str(session.get('student_id')))
     return render_template('cs535_project2.html', 
                            form= form,
                            student_id=session.get('student_id'), 
