@@ -62,6 +62,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.migrate import Migrate, MigrateCommand
 
 import logging
+import time
 
 #
 # Create basic flask app and configuration
@@ -128,10 +129,10 @@ class cs535Logger(object):
 
     def log(self, msg):
         
-        #import pdb; pdb.set_trace()
-        print msg
-        self._logger_.info(msg)
-        self._logger_.debug(msg)
+        logmsg = time.ctime() + ":" + msg
+        print logmsg
+        self._logger_.info(logmsg)
+        self._logger_.debug(logmsg)
         
         
          
@@ -173,9 +174,8 @@ def checkDB():
         # if validated, use redirect to handle browser refresh
         #  if nothing changed, a refresh will send the old data again
         #
+        cs535logger.log("---- New student logging in ----")
         studentrec = LoginRecord.query.filter_by(ID=form.student_id.data).all()
-
-
 
         if not studentrec: #empty list
             #print "Unknown student"
