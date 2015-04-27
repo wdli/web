@@ -5,14 +5,22 @@ sudo rpm -ivh epel-release-6-8.noarch.rpm
 sudo yum install python-pip
 sudo pip install flask
 
+Install flask on Ubuntu
+=======================
+Similar to Centos steps: 
+
+sudo apt-get install python-pip
+sudo pip install flask
+
 
 Work with the Flask book examples
 ================================
 
-Install:
+Install the following flask extensions:
 
 flask-script
 flask-bootstrap
 argparse
 flask-wtf
-
+flask-sqlalchemy
+flask-migrate
