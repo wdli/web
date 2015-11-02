@@ -87,7 +87,7 @@ db = SQLAlchemy(app)
 #   This is based on the output from sqlacodegen
 #
 class LoginRecord(db.Model):
-    __tablename__='CS535_Spring15' # UPDATE 
+    __tablename__='CS535_student_table' # UPDATE 
     ID   = db.Column(db.Integer, primary_key=True)
     TIME = db.Column(db.String, unique=True)
 

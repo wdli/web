@@ -24,3 +24,11 @@ argparse
 flask-wtf
 flask-sqlalchemy
 flask-migrate
+
+
+To use this for CS535 project
+=============================
+See the comments in cs535.py file
+to update DB and table names matching those
+defined by ssl server files
+
